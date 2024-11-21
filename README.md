@@ -36,7 +36,11 @@ This program is designed to provide comprehensive insights into any given text b
    ```bash
    python app.py
    ```
-The app features a user-friendly Gradio interface, allowing you to effortlessly input text.
+4. **Access the App:** After running the app, you will see a message similar to:
+   ```bash
+   Running on local URL: http://127.0.0.1:7860
+   ``` 
+Copy the provided URL and paste it into your web browser to access the app.
 
 ## Note:
 Number of words and sentences are computed after removing the stopwords from the text.
