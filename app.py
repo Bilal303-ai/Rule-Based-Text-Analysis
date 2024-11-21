@@ -220,9 +220,9 @@ def analyze(input_text):
 
 gradio_app = gr.Interface(
   analyze,
-  inputs = gr.Textbox(label='Text')
+  inputs = gr.Textbox(label='Text'),
   outputs = [gr.Textbox(label='Num of words'), gr.Textbox(label='Number of Sentences'), gr.Textbox(label='Average sentence length'), gr.Textbox(label='Num of complex words'), gr.Textbox(label='Percentage of complex words'),  gr.Textbox(label='Average word length'), gr.Textbox(label='Positive score'), gr.Textbox(label='Negative score'), gr.Textbox(label='Subjectivity score'), gr.Textbox(label='Fog index')],
-title="Text Analysis"
+  title="Text Analysis",
 )
 
 if __name__ == "__main__":
