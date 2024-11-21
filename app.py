@@ -209,7 +209,7 @@ def analyze(input_text):
   sentence_count = (count_sentences(clean_text))
   average_sentence_length = round(word_count / sentence_count)
   complex_word_count = compute_num_complex_words(tokens)
-  percentage_of_complex_words = round((Complex_word_count / word_count) * 100, 2)
+  percentage_of_complex_words = round((complex_word_count / word_count) * 100, 2)
   average_word_length = round(get_average_word_length(tokens))
   positive_score = compute_positive_score(tokens)
   negative_score = compute_negative_score(tokens)
