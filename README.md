@@ -37,3 +37,6 @@ This program is designed to provide comprehensive insights into any given text b
    python app.py
    ```
 The app features a user-friendly Gradio interface, allowing you to effortlessly input text.
+
+## Note:
+Number of words and sentences are computed after removing the stopwords from the text.
