@@ -2,6 +2,9 @@
 
 This program is designed to provide comprehensive insights into any given text by performing detailed analysis across several key metrics. By processing the text, the program outputs valuable information including:
 
+<img width="772" alt="hsbcscusbu" src="https://github.com/user-attachments/assets/f08f1fc4-6220-4e32-a0e8-3d8cd716bd06">
+
+
 **Word Count:** Total number of words in the text.
 
 **Sentence Count:** Total number of sentences in the text.
