@@ -32,7 +32,7 @@ def load_stopwords(file_paths):
   return stopwords
 
 
-stopword_file = [
+stopword_files = [
   stopwords-en.txt
   ]
 
