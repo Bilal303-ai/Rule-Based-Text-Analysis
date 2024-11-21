@@ -199,8 +199,7 @@ def get_average_word_length(tokens):
   average_word_length = total_length / len(words)
   return round(average_word_length)
 
-keys = ['Word count', 'Sentence count', 'Average sentence length' , 'Complex word count', 'Percentage of complex words', 'Average word length','Positive score', 'Negative score', 'Polarity score', 'Subjectivity score', Fog index]
-result = {'variables': keys, 'Values': []}
+
 
 
 def analyze(input_text):
