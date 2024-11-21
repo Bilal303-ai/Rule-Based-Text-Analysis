@@ -226,4 +226,4 @@ gradio_app = gr.Interface(
 )
 
 if __name__ == "__main__":
-    gradio_app.launch(debug=True)
+    gradio_app.launch()
