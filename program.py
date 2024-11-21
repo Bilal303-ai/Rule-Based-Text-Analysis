@@ -10,35 +10,6 @@ nltk.download('all')
 from nltk.tokenize import sent_tokenize
 
 
-#DATA EXTRACTION
-
-def extract_text(url):
-  """
-  Extract text from the given URL
-  """
-  extracted_text = []
-  response = requests.get(url)
-  soup = BeautifulSoup(response.text, 'lxml')
-
-  title_tag = soup.find('h1', class_= 'entry-title')
-  title = title_tag.text.strip()
-  extracted_text.append(title + '.')
-
-  main_content_div = soup.find('div', class_ = 'td-post-content tagdiv-type')
-
-  def should_exclude(tag):
-    if 'project snapshots' in tag.text.lower():
-      return True
-
-  for tag in main_content_div.find_all(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li']):
-    if should_exclude(tag):
-      continue
-    if tag.text.strip():
-      extracted_text.append(tag.text.strip())
-
-  content =  '\n'.join(extracted_text)
-  return content
-
 #LOAD THE STOPWORDS FROM ALL .txt FILES
 
 def detect_encoding(file_path):
