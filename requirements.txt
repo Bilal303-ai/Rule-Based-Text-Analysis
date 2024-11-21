@@ -4,3 +4,4 @@ nltk
 charset-normalizer
 openpyxl
 lxml
+gradio
