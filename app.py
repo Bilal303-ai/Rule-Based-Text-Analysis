@@ -204,7 +204,7 @@ def get_average_word_length(tokens):
 
 def analyze(input_text):
   clean_text = remove_stopwords(input_text)
-  tokens = tokeinize_words(clean_text)
+  tokens = tokenize_words(clean_text)
   word_count = compute_word_count(tokens)
   sentence_count = (count_sentences(clean_text))
   average_sentence_length = round(word_count / sentence_count)
