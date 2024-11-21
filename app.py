@@ -33,7 +33,7 @@ def load_stopwords(file_paths):
 
 
 stopword_files = [
-  stopwords-en.txt
+  'stopwords-en.txt'
   ]
 
 stopwords = load_stopwords(stopword_files)
