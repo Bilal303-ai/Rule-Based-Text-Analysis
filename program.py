@@ -10,7 +10,6 @@ nltk.download('all')
 from nltk.tokenize import sent_tokenize
 
 
-#LOAD THE STOPWORDS FROM ALL .txt FILES
 
 def detect_encoding(file_path):
   """
@@ -22,7 +21,7 @@ def detect_encoding(file_path):
 
 def load_stopwords(file_paths):
   """
-  Load stopwords from all of the .txt files
+  Load stopwords from stopwords-en.txt file
   """
 
   stopwords = set()
@@ -33,19 +32,12 @@ def load_stopwords(file_paths):
   return stopwords
 
 
-stopword_files = [
-      "StopWords_Auditor.txt",
-      "StopWords_Currencies.txt",
-      "StopWords_DatesandNumbers.txt",
-      "StopWords_Generic.txt",
-      "StopWords_GenericLong.txt",
-      "StopWords_Geographic.txt",
-      "StopWords_Names.txt",
+stopword_file = [
+  stopwords-en.txt
   ]
 
-stopwords = load_stopwords( stopword_files)
+stopwords = load_stopwords(stopword_files)
 
-#CREATE A DICTIONARY OF POSITIVE AND NEGATIVE WORDS
 
 def create_dict(positive_words_filepath, negative_words_filepath):
   """
@@ -69,7 +61,6 @@ def create_dict(positive_words_filepath, negative_words_filepath):
 
 dict = create_dict("positive-words.txt", "negative-words.txt")
 
-print(dict["positive"])
 
 #VARIOUS FUNCTIONS FOR DATA ANALYSIS
 
@@ -82,7 +73,7 @@ def remove_stopwords(text):
   filtered_words = [word for word in words if word.lower() not in stopwords]
   return ' '.join(filtered_words)
 
-def tokeinize_words(text):
+def tokenize_words(text):
   """
   Tokenize the given text
   """
@@ -208,36 +199,21 @@ def get_average_word_length(tokens):
   average_word_length = total_length / len(words)
   return round(average_word_length)
 
+keys = ['Word count', 'Sentence count', 'Average sentence length' , 'Complex word count', 'Percentage of complex words', 'Average word length','Positive score', 'Negative score', 'Polarity score', 'Subjectivity score', Fog index]
+result = {'variables': keys, 'Values': []}
 
-#PREPARE THE OUTPUT FILE WITH ALL REQUIRED VARIABLES
+input_text = Input("Enter your text here.")
+clean_text = remove_stopwords(input_text)
+tokens = tokeinize_words(clean_text)
+word_count = compute_word_count(tokens)
+sentence_count = (count_sentences(clean_text)
+average_sentence_length = round(word_count / sentence_count)
+complex_word_count = compute_num_complex_words(tokens)
+percentage_of_complex_words = round((Complex_word_count / word_count) * 100, 2)
+average_word_length = round(get_average_word_length(tokens))
+positive_score = compute_positive_score(tokens)
+negative_score = compute_negative_score(tokens)
+polarity_score = round((positive_score - negative_score) / (positive_score - negative_score + 0.000001), 2)
+subjectivity_score = round((positive_score + negative_score) / (word_count + 0.000001), 2)
+fog_index = round(0.4 * (average_sentence_length + percentage_of_complex_words), 2)
 
-result = pd.read_excel('Input.xlsx')
-result['Extracted_text'] = result['URL'].apply(extract_text)
-result['Clean_Text'] = result["Extracted_text"].apply(remove_stopwords)
-result['Tokens'] = result['Clean_Text'].apply(tokeinize_words)
-result['POSITIVE SCORE'] = result['Tokens'].apply(compute_positive_score)
-result['NEGATIVE SCORE'] = result['Tokens'].apply(compute_negative_score)
-result['POLARITY SCORE'] = (result['POSITIVE SCORE'] - result['NEGATIVE SCORE']) / (result['POSITIVE SCORE'] + result['NEGATIVE SCORE'] + 0.000001)
-result['WORD COUNT'] = result['Tokens'].apply(compute_word_count)
-result['SUBJECTIVITY SCORE'] = (result['POSITIVE SCORE'] + result['NEGATIVE SCORE']) / (result['WORD COUNT'] + 0.000001)
-result['NUM_SENTENCES'] = result['Clean_Text'].apply(count_sentences)
-result['AVG SENTENCE LENGTH'] = round(result['WORD COUNT'] / result['NUM_SENTENCES'])
-result['COMPLEX WORD COUNT'] = result['Tokens'].apply(compute_num_complex_words)
-result['PERCENTAGE OF COMPLEX WORDS'] = result['COMPLEX WORD COUNT'] / result['WORD COUNT'] * 100
-result['FOG INDEX'] = round(0.4 * (result['AVG SENTENCE LENGTH'] + result['PERCENTAGE OF COMPLEX WORDS']), 4)
-result['AVG NUMBER OF WORDS PER SENTENCE'] = result['WORD COUNT'] / result['NUM_SENTENCES']
-result['SYLLABLE PER WORD'] = result['Tokens'].apply(get_syllable_count_per_word)
-result['PERSONAL PRONOUNS'] = result['Tokens'].apply(get_personal_pronouns)
-result['AVG WORD LENGTH'] = result['Tokens'].apply(get_average_word_length)
-result['SUBJECTIVITY SCORE'] = (result['POSITIVE SCORE'] + result['NEGATIVE SCORE']) / (result['WORD COUNT'] + 0.000001)
-result['NUM_SENTENCES'] = result['Clean_Text'].apply(count_sentences)
-result['AVG SENTENCE LENGTH'] = round(result['WORD COUNT'] / result['NUM_SENTENCES'])
-result['COMPLEX WORD COUNT'] = result['Tokens'].apply(compute_num_complex_words)
-result['PERCENTAGE OF COMPLEX WORDS'] = result['COMPLEX WORD COUNT'] / result['WORD COUNT'] * 100
-result['FOG INDEX'] = round(0.4 * (result['AVG SENTENCE LENGTH'] + result['PERCENTAGE OF COMPLEX WORDS']), 4)
-result['AVG NUMBER OF WORDS PER SENTENCE'] = result['WORD COUNT'] / result['NUM_SENTENCES']
-result['SYLLABLE PER WORD'] = result['Tokens'].apply(get_syllable_count_per_word)
-result['PERSONAL PRONOUNS'] = result['Tokens'].apply(get_personal_pronouns)
-result['AVG WORD LENGTH'] = result['Tokens'].apply(get_average_word_length)
-result = result.drop(['Extracted_text', 'Clean_Text', 'Tokens', 'NUM_SENTENCES'], axis=1)
-result.to_excel('Output.xlsx', index=False)
