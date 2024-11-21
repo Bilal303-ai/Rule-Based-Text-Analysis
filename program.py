@@ -3,11 +3,11 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-import os
 from charset_normalizer import detect
 import nltk
 nltk.download('all')
 from nltk.tokenize import sent_tokenize
+import gradio as gr
 
 
 
@@ -202,18 +202,29 @@ def get_average_word_length(tokens):
 keys = ['Word count', 'Sentence count', 'Average sentence length' , 'Complex word count', 'Percentage of complex words', 'Average word length','Positive score', 'Negative score', 'Polarity score', 'Subjectivity score', Fog index]
 result = {'variables': keys, 'Values': []}
 
-input_text = Input("Enter your text here.")
-clean_text = remove_stopwords(input_text)
-tokens = tokeinize_words(clean_text)
-word_count = compute_word_count(tokens)
-sentence_count = (count_sentences(clean_text)
-average_sentence_length = round(word_count / sentence_count)
-complex_word_count = compute_num_complex_words(tokens)
-percentage_of_complex_words = round((Complex_word_count / word_count) * 100, 2)
-average_word_length = round(get_average_word_length(tokens))
-positive_score = compute_positive_score(tokens)
-negative_score = compute_negative_score(tokens)
-polarity_score = round((positive_score - negative_score) / (positive_score - negative_score + 0.000001), 2)
-subjectivity_score = round((positive_score + negative_score) / (word_count + 0.000001), 2)
-fog_index = round(0.4 * (average_sentence_length + percentage_of_complex_words), 2)
 
+def analyze(input_text):
+  clean_text = remove_stopwords(input_text)
+  tokens = tokeinize_words(clean_text)
+  word_count = compute_word_count(tokens)
+  sentence_count = (count_sentences(clean_text)
+  average_sentence_length = round(word_count / sentence_count)
+  complex_word_count = compute_num_complex_words(tokens)
+  percentage_of_complex_words = round((Complex_word_count / word_count) * 100, 2)
+  average_word_length = round(get_average_word_length(tokens))
+  positive_score = compute_positive_score(tokens)
+  negative_score = compute_negative_score(tokens)
+  polarity_score = round((positive_score - negative_score) / (positive_score - negative_score + 0.000001), 2)
+  subjectivity_score = round((positive_score + negative_score) / (word_count + 0.000001), 2)
+  fog_index = round(0.4 * (average_sentence_length + percentage_of_complex_words), 2)
+  return word_count, sentence_count, average_sentence_length, complex_word_count, percentage_of_complex_words, average_word_length, positive_score, negative_score, subjectivity_score, fog_index
+
+gradio_app = gr.Interface(
+  analyze,
+  inputs = gr.Textbox(label='Text')
+  outputs = [gr.Textbox(label='Num of words'), gr.Textbox(label='Number of Sentences'), gr.Textbox(label='Average sentence length'), gr.Textbox(label='Num of complex words'), gr.Textbox(label='Percentage of complex words'),  gr.Textbox(label='Average word length'), gr.Textbox(label='Positive score'), gr.Textbox(label='Negative score'), gr.Textbox(label='Subjectivity score'), gr.Textbox(label='Fog index')],
+title="Text Analysis"
+)
+
+if __name__ == "__main__":
+    gradio_app.launch()
